@@ -369,15 +369,14 @@ def compute_code_ranges(text: str) -> List[Tuple[int, int]]:
         offsets.append(pos)
         pos += len(line)
 
-    def line_range(start_index: int, end_index: int) -> Tuple[int, int]:
-        end_offset = offsets[end_index] + len(lines[end_index])
-        return offsets[start_index], min(end_offset, len(text))
+    if not lines:
+        return ranges
 
     # YAML front matter
-    if lines and lines[0].strip() == "---":
+    if lines[0].strip() == "---":
         for index in range(1, len(lines)):
             if lines[index].strip() in ("---", "..."):
-                ranges.append((0, offsets[index] + len(lines[index])))
+                ranges.append((0, min(offsets[index] + len(lines[index]), len(text))))
                 break
 
     in_fence = False
