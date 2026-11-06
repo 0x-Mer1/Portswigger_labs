@@ -1,0 +1,7 @@
+# Tool state (manifest, backups of Markdown files, JSON reports)
+.image_tool/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
